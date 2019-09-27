@@ -2,33 +2,32 @@ import { Request, Response } from "express";
 import { ProductRepository } from "../../repositories/ProductRepository";
 import { Product } from "../../models/Product";
 
-export const getProduct = (request: Request, response: Response) => {
-    let productRepository = new ProductRepository();
-    let id = request.params.id;
-    return productRepository.readOne(id);
-};
+export default class ProductsController {
+    private readonly productRepository = new ProductRepository();
 
-export const getProducts =(request: Request, res: Response) => {
-    let productRepository = new ProductRepository();
-    var product = new Product("", request.query["name"], request.query["quantity"], request.query["price"]);
-    return productRepository.read(product);
-};
+    public getProduct(request: Request, response: Response): Promise<Product> {
+        let id = request.params.id;
+        return this.productRepository.readOne(id);
+    };
 
-export const createProduct = (request: Request, response: Response) => {
-    let productRepository = new ProductRepository();
-    var product = new Product(undefined, request.body["name"], request.body["quantity"], request.body["price"]);
-    return productRepository.create(product);
-};
+    public getProducts(request: Request, res: Response): Promise<Product[]> {
+        var product = new Product("", request.query["name"], request.query["quantity"], request.query["price"]);
+        return this.productRepository.read(product);
+    };
 
-export const updateProduct = (request: Request, response: Response) => {
-    let productRepository = new ProductRepository();
-    let id = request.params.id;
-    var product = new Product(id, request.query["name"], request.query["quantity"], request.query["price"]);
-    return productRepository.update(product);
-};
+    public createProduct(request: Request, response: Response): Promise<boolean> {
+        var product = new Product(undefined, request.body["name"], request.body["quantity"], request.body["price"]);
+        return this.productRepository.create(product);
+    };
 
-export const deleteProduct = (request: Request, response: Response) => {
-    let productRepository = new ProductRepository();
-    let id = request.params.id;
-    return productRepository.delete(id);
-};
+    public updateProduct(request: Request, response: Response): Promise<boolean> {
+        let id = request.params.id;
+        var product = new Product(id, request.query["name"], request.query["quantity"], request.query["price"]);
+        return this.productRepository.update(product);
+    };
+
+    public deleteProduct(request: Request, response: Response): Promise<boolean> {
+        let id = request.params.id;
+        return this.productRepository.delete(id);
+    };
+}

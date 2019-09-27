@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { ProductRepository } from "../../repositories/ProductRepository";
 import { Product } from "../../models/Product";
-import * as controller from "./controller";
+import ProductsController from "./controller";
 export default [
     {
         path: "/products/:id",
