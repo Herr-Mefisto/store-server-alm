@@ -10,7 +10,7 @@ export default [
         handler: async (req: Request, res: Response) => {
             const controller = new ProductsController();
             controller
-                .getProduct(req, res)
+                .getOne(req, res)
                 .then((product: Product) => {
                     res.status(200).json(product);
                 });
@@ -23,7 +23,7 @@ export default [
             const controller = new ProductsController();
 
             controller
-                .getProducts(req, res)
+                .getMany(req, res)
                 .then((product) => {
                     res.status(200).json(product);
                 });
@@ -35,7 +35,7 @@ export default [
         handler: async (req: Request, res: Response) => {
             const controller = new ProductsController();
             controller
-                .createProduct(req, res)
+                .create(req, res)
                 .then((product) => {
                     res.status(200).json(product);
                 });
@@ -47,7 +47,7 @@ export default [
         handler: async (req: Request, res: Response) => {
             const controller = new ProductsController();
             controller
-                .updateProduct(req, res)
+                .update(req, res)
                 .then((product) => {
                     res.status(200).json(product);
                 });
@@ -59,7 +59,7 @@ export default [
         handler: async (req: Request, res: Response) => {
             const controller = new ProductsController();
             controller
-                .deleteProduct(req, res)
+                .delete(req, res)
                 .then((product) => {
                     res.status(200).json(product);
                 });
