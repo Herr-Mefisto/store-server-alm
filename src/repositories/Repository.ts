@@ -3,8 +3,11 @@ import { config } from "node-config-ts";
 import Knex = require("knex");
 import { IRead } from "./interfaces/IRead";
 import { IWrite } from "./interfaces/IWrite";
+import { Entity } from "../models/Entity";
+import Page from "../models/Page";
+import { Sort } from "../models/Sort";
 
-export abstract class Repository<TEntity> implements IRead<TEntity>, IWrite<TEntity>{
+export abstract class Repository<TEntity extends Entity> implements IRead<TEntity>, IWrite<TEntity>{
 
     private _knex: Knex.QueryBuilder;
 
@@ -60,11 +63,18 @@ export abstract class Repository<TEntity> implements IRead<TEntity>, IWrite<TEnt
             });
     }
 
-    read(item: TEntity): Promise<TEntity[]> {
+    read(item: TEntity, page: Page, sort: Sort): Promise<TEntity[]> {
         let builder = this.Builder
             .select("*");
 
-        //this.constructFilters(item, builder);
+        builder.limit(!isNaN(page.Limit) ? page.Limit : 20);
+        builder.offset(!isNaN(page.Offset) != undefined ? page.Offset : 0);
+
+        if (sort != undefined && sort.Field != undefined) {
+            builder.orderBy(sort.Field, sort.Order.toString());
+        }
+
+        this.constructFilters(item, builder);
 
         return builder;
     }

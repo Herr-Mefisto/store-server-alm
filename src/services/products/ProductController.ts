@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 import { ProductRepository } from "../../repositories/ProductRepository";
 import { Product } from "../../models/Product";
+import Page from "../../models/Page";
+import { Sort, SortOrder } from "../../models/Sort";
 
 export default class ProductsController {
     private readonly productRepository = new ProductRepository();
@@ -11,8 +13,16 @@ export default class ProductsController {
     };
 
     public getProducts(request: Request, res: Response): Promise<Product[]> {
+        const offset = parseInt(request.query["offset"], 10);
+        const limit = parseInt(request.query["limit"], 10);
+        var page = new Page(limit, offset);
+
+        var sortByField = request.query["sortBy"];
+        var sortOrder = request.query["sortOrder"] == SortOrder.asc.toString() ? SortOrder.asc : SortOrder.desc;
+        var sort = new Sort(sortByField, sortOrder);
+
         var product = new Product("", request.query["name"], request.query["quantity"], request.query["price"]);
-        return this.productRepository.read(product);
+        return this.productRepository.read(product, page, sort);
     };
 
     public createProduct(request: Request, response: Response): Promise<boolean> {

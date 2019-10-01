@@ -1,12 +1,14 @@
 import { Request, Response } from "express";
 import { ProductRepository } from "../../repositories/ProductRepository";
 import { Product } from "../../models/Product";
-import ProductsController from "./controller";
+import ProductsController from "./ProductController";
+
 export default [
     {
         path: "/products/:id",
         method: "get",
         handler: async (req: Request, res: Response) => {
+            const controller = new ProductsController();
             controller
                 .getProduct(req, res)
                 .then((product: Product) => {
@@ -18,6 +20,8 @@ export default [
         path: "/products",
         method: "get",
         handler: async (req: Request, res: Response) => {
+            const controller = new ProductsController();
+
             controller
                 .getProducts(req, res)
                 .then((product) => {
@@ -29,6 +33,7 @@ export default [
         path: "/products",
         method: "post",
         handler: async (req: Request, res: Response) => {
+            const controller = new ProductsController();
             controller
                 .createProduct(req, res)
                 .then((product) => {
@@ -40,6 +45,7 @@ export default [
         path: "/products/:id",
         method: "put",
         handler: async (req: Request, res: Response) => {
+            const controller = new ProductsController();
             controller
                 .updateProduct(req, res)
                 .then((product) => {
@@ -51,6 +57,7 @@ export default [
         path: "/products/:id",
         method: "delete",
         handler: async (req: Request, res: Response) => {
+            const controller = new ProductsController();
             controller
                 .deleteProduct(req, res)
                 .then((product) => {
