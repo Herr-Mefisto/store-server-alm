@@ -25,18 +25,18 @@ export default abstract class Controller<TEntity extends Entity, TRepository ext
         var sortOrder = request.query["sortOrder"] == SortOrder.asc.toString() ? SortOrder.asc : SortOrder.desc;
         var sort = new Sort(sortByField, sortOrder);
 
-        var entity = this.getEntityDataFromRequest(request);
+        var entity = this.getEntityDataFromRequest(request.query);
         return this.Repository.read(entity, page, sort);
     };
 
     public create(request: Request, response: Response): Promise<boolean> {
-        var entity = this.getEntityDataFromRequest(request);
+        var entity = this.getEntityDataFromRequest(request.body);
         return this.Repository.create(entity);
     };
 
     public update(request: Request, response: Response): Promise<boolean> {
         let id = request.params.id;
-        var entity = this.getEntityDataFromRequest(request);
+        var entity = this.getEntityDataFromRequest(request.body);
         entity.id = id;
         return this.Repository.update(entity);
     };
@@ -46,5 +46,15 @@ export default abstract class Controller<TEntity extends Entity, TRepository ext
         return this.Repository.delete(id);
     };
 
-    protected abstract getEntityDataFromRequest(request: Request): TEntity;
+    protected getEntityDataFromRequest(inputObject: any): TEntity {
+        var entity = {};
+
+        Object.entries(inputObject).forEach(element => {
+            const key = element[0];
+            const value = element[1];
+            entity[key] = value;
+        });
+
+        return entity as TEntity;
+    }
 }

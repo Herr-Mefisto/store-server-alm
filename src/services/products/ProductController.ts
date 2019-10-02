@@ -8,9 +8,4 @@ export default class ProductsController extends Controller<Product, ProductRepos
     constructor() {
         super(new ProductRepository())
     }
-
-    protected getEntityDataFromRequest(request: Request): Product {
-        var product = new Product("", request.query["name"], request.query["quantity"], request.query["price"]);
-        return product;
-    }    
 }
