@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon src/server.ts",
+    "dev": "nodemon src/server/server.ts",
     "debug": "tsc-watch --onSuccess \"node --inspect ./dist/server.js\"",
     "postinstall": "node-config-ts"
   },

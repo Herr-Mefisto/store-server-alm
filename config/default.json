@@ -1,5 +1,5 @@
 {
-  "app_port": 3000,
+  "app_port": 4000,
   "database_connection": {
     "host": "localhost",
     "database": "ALMNode",
