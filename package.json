@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "tsc-watch --onSuccess \"node ./dist/server.js\"",
+    "dev": "nodemon src/server.ts",
     "debug": "tsc-watch --onSuccess \"node --inspect ./dist/server.js\"",
     "postinstall": "node-config-ts"
   },
@@ -27,7 +27,9 @@
     "lodash": "^4.17.15",
     "node-config": "0.0.2",
     "node-config-ts": "^2.2.4",
+    "nodemon": "^1.19.3",
     "pg": "^7.12.1",
+    "ts-node": "^8.4.1",
     "tsc-watch": "^4.0.0",
     "typescript": "^3.6.3"
   },

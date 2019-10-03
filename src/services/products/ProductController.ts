@@ -1,4 +1,3 @@
-import { Request, Response } from "express";
 import { ProductRepository } from "../../repositories/ProductRepository";
 import { Product } from "../../models/Product";
 import Controller from "../Controller";
