@@ -15,7 +15,7 @@ export default abstract class Controller<TEntity extends Entity, TRepository ext
         let id = request.params.id;
         return this.Repository.readOne(id);
     };
-
+ 
     public getMany(request: Request, res: Response): Promise<TEntity[]> {
         const offset = parseInt(request.query["offset"], 10);
         const limit = parseInt(request.query["limit"], 10);

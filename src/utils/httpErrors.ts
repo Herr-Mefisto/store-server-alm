@@ -30,3 +30,9 @@ export class HTTP404Error extends HTTPClientError {
         super(message);
     }
 }
+
+export class ValidationError extends HTTP400Error {
+    constructor(message) {
+        super(message);
+    }
+}
