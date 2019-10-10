@@ -4,57 +4,63 @@ import { Entity } from "../models/Entity";
 import { Sort, SortOrder } from "../models/Sort";
 import Page from "../models/Page";
 
-export default abstract class Controller<TEntity extends Entity, TRepository extends Repository<TEntity>> {
-    protected readonly Repository: TRepository;
+export default abstract class Controller<
+  TEntity extends Entity,
+  TRepository extends Repository<TEntity>
+> {
+  protected readonly Repository: TRepository;
 
-    constructor(repository: TRepository) {
-        this.Repository = repository;
-    }
+  constructor(repository: TRepository) {
+    this.Repository = repository;
+  }
 
-    public getOne(request: Request, response: Response): Promise<TEntity> {
-        let id = request.params.id;
-        return this.Repository.readOne(id);
-    };
- 
-    public getMany(request: Request, res: Response): Promise<TEntity[]> {
-        const offset = parseInt(request.query["offset"], 10);
-        const limit = parseInt(request.query["limit"], 10);
-        var page = new Page(limit, offset);
+  public getOne(request: Request, response: Response): Promise<TEntity> {
+    let id = request.params.id;
+    return this.Repository.readOne(id);
+  }
 
-        var sortByField = request.query["sortBy"];
-        var sortOrder = request.query["sortOrder"] == SortOrder.asc.toString() ? SortOrder.asc : SortOrder.desc;
-        var sort = new Sort(sortByField, sortOrder);
+  public getMany(request: Request, res: Response): Promise<TEntity[]> {
+    const offset = parseInt(request.query["offset"], 10);
+    const limit = parseInt(request.query["limit"], 10);
+    var page = new Page(limit, offset);
 
-        var entity = this.getEntityDataFromRequest(request.query);
-        return this.Repository.read(entity, page, sort);
-    };
+    var sortByField = request.query["sortBy"];
+    var sortOrder =
+      request.query["sortOrder"] == SortOrder.asc.toString()
+        ? SortOrder.asc
+        : SortOrder.desc;
+    var sort = new Sort(sortByField, sortOrder);
 
-    public create(request: Request, response: Response): Promise<boolean> {
-        var entity = this.getEntityDataFromRequest(request.body);
-        return this.Repository.create(entity);
-    };
+    var entity = this.getEntityDataFromRequest(request.query);
+    return this.Repository.read(entity, page, sort);
+  }
 
-    public update(request: Request, response: Response): Promise<boolean> {
-        let id = request.params.id;
-        var entity = this.getEntityDataFromRequest(request.body);
-        entity.id = id;
-        return this.Repository.update(entity);
-    };
+  public create(request: Request, response: Response): Promise<boolean> {
+    var entity = this.getEntityDataFromRequest(request.body);
+    return this.Repository.create(entity);
+  }
 
-    public delete(request: Request, response: Response): Promise<boolean> {
-        let id = request.params.id;
-        return this.Repository.delete(id);
-    };
+  public update(request: Request, response: Response): Promise<boolean> {
+    let id = request.params.id;
+    var entity = this.getEntityDataFromRequest(request.body);
+    console.log(entity);
+    return this.Repository.update(id, entity);
+  }
 
-    protected getEntityDataFromRequest(inputObject: any): TEntity {
-        var entity = {};
+  public delete(request: Request, response: Response): Promise<boolean> {
+    let id = request.params.id;
+    return this.Repository.delete(id);
+  }
 
-        Object.entries(inputObject).forEach(element => {
-            const key = element[0];
-            const value = element[1];
-            entity[key] = value;
-        });
+  protected getEntityDataFromRequest(inputObject: any): TEntity {
+    var entity = {};
 
-        return entity as TEntity;
-    }
+    Object.entries(inputObject).forEach(element => {
+      const key = element[0];
+      const value = element[1];
+      entity[key] = value;
+    });
+
+    return entity as TEntity;
+  }
 }
