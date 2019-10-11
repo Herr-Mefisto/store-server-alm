@@ -66,6 +66,6 @@
     /* Advanced Options */
     "resolveJsonModule": true /* Include modules imported with '.json' extension */
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "config/*"],
   "exclude": ["node_modules", "**/*.test.ts"]
 }

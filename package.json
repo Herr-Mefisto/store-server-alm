@@ -5,8 +5,14 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon src/server/server.ts",
-    "debug": "tsc-watch --onSuccess \"node --inspect ./dist/server.js\"",
-    "postinstall": "node-config-ts"
+    "build-ts": "tsc",
+    "lint": "tslint -c tslint.json 'src/**/*.ts'",
+    "postinstall": "npm run build-ts",
+    "start": "npm run serve",
+    "serve": "node dist/server.js",
+    "test": "jest src",
+    "watch-node": "nodemon dist/server.js",
+    "watch-ts": "tsc -w"
   },
   "keywords": [],
   "author": "",
@@ -30,9 +36,7 @@
     "pg": "^7.12.1",
     "ts-node": "^8.4.1",
     "tsc-watch": "^4.0.0",
-    "typescript": "^3.6.3"
-  },
-  "devDependencies": {
+    "typescript": "^3.6.3",
     "@types/hapi__joi": "^15.0.4",
     "@types/node": "^12.7.12"
   }
