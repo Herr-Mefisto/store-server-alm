@@ -1,0 +1,10 @@
+{
+  "app_port": 4000,
+  "database_connection": {
+    "host": "ec2-54-246-84-100.eu-west-1.compute.amazonaws.com",
+    "database": "d86ivjf4dca3cb",
+    "user": "bdgzvqtmqbmwgo",
+    "password": "e4725f40778ccd1eb7cb5aea954875ee3838d218d9881cc244e41116d46fa59e",
+    "port": 5432
+  }
+}
